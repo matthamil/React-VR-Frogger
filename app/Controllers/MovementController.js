@@ -101,29 +101,41 @@ export default class MovementController extends React.Component {
   }
 
   detectMovement = (e) => {
-    if (e.nativeEvent.inputEvent.eventType !== 'keydown') {
+    const { eventType } = e.nativeEvent.inputEvent;
+    if (
+      eventType !== 'keydown' ||
+      eventType !== 'touchstart'
+    ) {
       return;
     }
-    const { key } = e.nativeEvent.inputEvent;
-    switch (key) {
-      case 'd': {
-        this.moveRight();
-        return;
+
+    if (eventType === 'keydown') {
+      const { key } = e.nativeEvent.inputEvent;
+      switch (key) {
+        case 'd': {
+          this.moveRight();
+          return;
+        }
+        case 'a': {
+          this.moveLeft();
+          return;
+        }
+        case 'w': {
+          this.moveUp();
+          return;
+        }
+        case 's': {
+          this.moveDown();
+          return;
+        }
+        default:
+          return;
       }
-      case 'a': {
-        this.moveLeft();
-        return;
-      }
-      case 'w': {
-        this.moveUp();
-        return;
-      }
-      case 's': {
-        this.moveDown();
-        return;
-      }
-      default:
-        return;
+    }
+    else if (eventType === 'touchstart') {
+      // TODO
+      const { touches } = e.nativeEvent.inputEvent;
+      const { viewportX, viewportY } = touches[0];
     }
   };
 
