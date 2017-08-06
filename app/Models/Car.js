@@ -67,6 +67,7 @@ export default class Car extends React.Component {
     return ((remainingDistance * (this.state.speed)) / this.state.totalDistance) * 1000;
   };
 
+  // Begin car animation 🚗 💨
   vroom = (duration = 5000) => {
     Animated.timing(
       this.state.z,
@@ -88,21 +89,27 @@ export default class Car extends React.Component {
     });
   };
 
+  // Arbitrary limits on car speed
   getRandomSpeed = () => (Math.random() * 8) + 5;
 
   getRandomCar = () => {
     return this.carMaterialOptions[Math.floor(Math.random() * this.carMaterialOptions.length)];
-  }
+  };
 
+  // Poor man's collision detection.
+  // Unlike other tools like Unity, React VR does not have a physics engine.
+  // React VR has no concept of "rigid bodies" like Unity does (see https://docs.unity3d.com/ScriptReference/Rigidbody.html).
+  // Collisions are checked every 100ms.
   carCollisionCheck = () => {
     const [ frogX, frogY, frogZ ] = this.props.frogLocation;
     const { x, y, z } = this.state;
 
+    const lengthOfCar = 3; // Length of car model
     const isFrogInLane = -frogZ === x;
 
     if (isFrogInLane &&
-      (z._value + 1.5 > frogX) &&
-      (z._value - 1.5 < frogX)
+      (z._value + (lengthOfCar / 2) > frogX) &&
+      (z._value - (lengthOfCar / 2) < frogX)
     ) {
       this.props.resetFrogPosition();
       clearInterval(this.state.interval);
@@ -110,7 +117,7 @@ export default class Car extends React.Component {
         interval: setInterval(this.carCollisionCheck, 100)
       }));
     }
-  }
+  };
 
   componentDidMount() {
     const { initZ } = this.props;
