@@ -14,6 +14,7 @@ import {
 
 import Scenery from './Scenery';
 
+// Renders the game floor, road, and scenery
 export default class Floor extends React.Component {
   constructor(props) {
     super(props);
