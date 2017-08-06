@@ -1,4 +1,4 @@
-# Frogger-React-VR
+# :frog: Frogger-React-VR
 
 This is a work-in-progress and proof-of-concept project. The goal is to recreate Frogger using [React VR](https://facebook.github.io/react-vr/).
 
