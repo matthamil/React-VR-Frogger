@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-vr';
 
-import CarController from './app/Controllers/CarController';
 import MovementController from './app/Controllers/MovementController';
 import Floor from './app/Models/Floor';
 
@@ -24,7 +23,6 @@ export default class Frogger extends React.Component {
           ]
         }}>
         <MovementController>
-          <CarController/>
           <Floor/>
           <Pano source={asset('panoramics/bluecloud_dn.jpg')}/>
         </MovementController>

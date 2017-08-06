@@ -77,9 +77,9 @@ export default class Car extends React.Component {
       }
     ).start(() => {
       this.setState(() => ({
-        z: new Animated.Value(-(this.state.totalDistance / 2)),
-        speed: this.getRandomSpeed(),
-        carModel: this.getRandomCar()
+          z: new Animated.Value(-(this.state.totalDistance / 2)),
+          speed: this.getRandomSpeed(),
+          carModel: this.getRandomCar()
       }), () => {
         const remainingDistance = this.state.totalDistance;
         const duration = this.getDuration(remainingDistance);
@@ -94,11 +94,33 @@ export default class Car extends React.Component {
     return this.carMaterialOptions[Math.floor(Math.random() * this.carMaterialOptions.length)];
   }
 
+  carCollisionCheck = () => {
+    const [ frogX, frogY, frogZ ] = this.props.frogLocation;
+    const { x, y, z } = this.state;
+
+    const isFrogInLane = -frogZ === x;
+
+    if (isFrogInLane &&
+      (z._value + 1.5 > frogX) &&
+      (z._value - 1.5 < frogX)
+    ) {
+      this.props.resetFrogPosition();
+      clearInterval(this.state.interval);
+      this.setState(() => ({
+        interval: setInterval(this.carCollisionCheck, 100)
+      }));
+    }
+  }
+
   componentDidMount() {
     const { initZ } = this.props;
     const remainingDistance = this.getRemainingDistance(initZ);
     const animationDuration = this.getDuration(remainingDistance);
     this.vroom(animationDuration);
+
+    this.setState(() => ({
+      interval: setInterval(this.carCollisionCheck, 100)
+    }));
   }
 
   render() {

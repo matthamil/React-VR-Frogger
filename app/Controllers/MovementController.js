@@ -12,6 +12,8 @@ import {
   View,
 } from 'react-vr';
 
+import CarController from './CarController';
+
 /**
  * This controller manages user input and moves the Frog through the
  * game area. The user can press W, A, S, or D to move the Frog.
@@ -22,15 +24,16 @@ export default class MovementController extends React.Component {
   leftBoundary = -12;  // x-axis boundary
   topBoundary = -10;   // z-axis boundary
   bottomBoundary = 14; // z-axis boundary
+  frogOrigin = { x: 0, y: -10, z: 5 };
 
   constructor(props) {
     super(props);
 
     // Initial location of the Frog
     this.state = {
-      x: 0,
-      y: -10,
-      z: 5
+      ...this.frogOrigin,
+      score: 0,
+      carLocations: {}
     };
   }
 
@@ -58,12 +61,17 @@ export default class MovementController extends React.Component {
 
   moveUp = () => {
     if (this.state.z > this.topBoundary) {
-      this.setState((prevState) => {
-        const { z } = prevState;
-        return {
-          z: z - 1
-        }
-      });
+      if (this.state.z - 1 === this.topBoundary) {
+        this.scorePoint();
+      }
+      else {
+        this.setState((prevState) => {
+          const { z } = prevState;
+          return {
+            z: z - 1
+          }
+        });
+      }
     }
   }
 
@@ -76,6 +84,20 @@ export default class MovementController extends React.Component {
         }
       });
     }
+  }
+
+  scorePoint = () => {
+    this.setState((prevState) => ({
+      score: prevState.score + 1,
+      // Reset position of Frog
+      ...this.frogOrigin
+    }));
+  };
+
+  resetFrogPosition = () => {
+    this.setState(() => ({
+      ...this.frogOrigin
+    }));
   }
 
   detectMovement = (e) => {
@@ -106,7 +128,8 @@ export default class MovementController extends React.Component {
   };
 
   render() {
-    const { x, y, z } = this.state;
+    const { x, y, z, score } = this.state;
+    const frogLocation = [ x, y, z ];
 
     return (
       <View
@@ -130,6 +153,10 @@ export default class MovementController extends React.Component {
             mtl: asset('frog/baby.mtl')
           }}/>
         </View>
+        <Text>{`Score: ${score}`}</Text>
+        <CarController
+          frogLocation={frogLocation}
+          resetFrogPosition={this.resetFrogPosition}/>
         {this.props.children}
       </View>
     );

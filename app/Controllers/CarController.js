@@ -18,24 +18,30 @@ export default class CarController extends React.Component {
     super(props);
   }
 
+  createCar = (carNumber) => {
+    return (
+      <Car
+        key={carNumber}
+        frogLocation={this.props.frogLocation}
+        resetFrogPosition={this.props.resetFrogPosition}
+        initX={carNumber}
+        initZ={Math.floor(Math.random * -10) + 10}/>
+    );
+  }
+
+  renderCars = () => {
+    let cars = [];
+    for (let i = 1; i < 6; i++) {
+      const car = this.createCar(i);
+      cars.push(car);
+    }
+    return cars;
+  }
+
   render() {
     return (
       <View>
-        <Car
-          initX={5}
-          initZ={-12.5}/>
-        <Car
-          initX={4}
-          initZ={0}/>
-        <Car
-          initX={3}
-          initZ={2}/>
-        <Car
-          initX={2}
-          initZ={-5}/>
-        <Car
-          initX={1}
-          initZ={-2}/>
+        {this.renderCars()}
       </View>
     )
   }
