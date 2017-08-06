@@ -20,7 +20,7 @@ If you are interested in learning about React VR, the following resources helped
 
 ## Attributions
 
-All assets in the `static_assets` directory are Creative Commons licensed works (except the frog model). The following is a list of asset packs used in this project:
+All assets in the `static_assets` directory are Creative Commons licensed works (except the frog model and material). The following is a list of asset packs used in this project:
 
 1. [3D Nature Pack](http://kenney.nl) - CC0 License
 1. [3D Landscape Assets v2](http://www.racoon-media.nl) - CC0 License
