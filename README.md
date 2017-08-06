@@ -4,6 +4,10 @@
 
 This is a proof-of-concept project. The is a recreation of Frogger using [React VR](https://facebook.github.io/react-vr/).
 
+## How to Play
+
+Use W, A, S, D keys on desktop to move around. On mobile, your character moves in the direction of the part of the screen you tap in. If you tap the top part of your screen, the frog will move forward. Tapping left moves the frog left, and so forth.
+
 ## Installation
 
 Download the project. Run `yarn` in the project directory. Run `yarn start` to run the app in development mode. Navigate to `localhost:8081/vr/` in your browser to see it in action.
