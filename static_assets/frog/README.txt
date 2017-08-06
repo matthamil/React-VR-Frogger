@@ -1,0 +1,1 @@
+Due to copyright reasons, the Frog model and material are not included in this repo. See the README.md in the root directory to download the Frog model and material.

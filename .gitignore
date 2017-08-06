@@ -4,3 +4,6 @@
 *.js.meta
 node_modules/
 build/
+static_assets/frog/baby.mtl
+static_assets/frog/baby.obj
+static_assets/frog/c33794f6_1.png

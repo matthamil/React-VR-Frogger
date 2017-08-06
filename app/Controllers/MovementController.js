@@ -4,6 +4,7 @@ import {
   AppRegistry,
   Animated,
   asset,
+  AsyncStorage,
   Model,
   Pano,
   Plane,
@@ -33,6 +34,7 @@ export default class MovementController extends React.Component {
     this.state = {
       ...this.frogOrigin,
       score: 0,
+      highScore: 0,
       carLocations: {}
     };
   }
@@ -87,15 +89,24 @@ export default class MovementController extends React.Component {
   }
 
   scorePoint = () => {
-    this.setState((prevState) => ({
-      score: prevState.score + 1,
-      // Reset position of Frog
-      ...this.frogOrigin
-    }));
+    this.setState((prevState) => {
+      const newScore = prevState.score + 1;
+      const isNewHighScore = newScore > prevState.highScore;
+      if (isNewHighScore) {
+        AsyncStorage.setItem('highScore', newScore);
+      }
+      return {
+        score: newScore,
+        highScore: isNewHighScore ? newScore : prevState.highScore,
+        // Reset position of Frog
+        ...this.frogOrigin
+      };
+    });
   };
 
   resetFrogPosition = () => {
     this.setState(() => ({
+      score: 0,
       ...this.frogOrigin
     }));
   }
@@ -203,8 +214,23 @@ export default class MovementController extends React.Component {
     }
   };
 
+
+  componentDidMount() {
+    AsyncStorage.getItem('highScore')
+      .then((highScore) => {
+        this.setState(() => ({
+          highScore
+        }));
+      })
+      .catch((err) => {
+        this.setState(() => ({
+          highScore: 0
+        }))
+      });
+  }
+
   render() {
-    const { x, y, z, score } = this.state;
+    const { x, y, z, score, highScore } = this.state;
     const frogLocation = [ x, y, z ];
 
     return (
@@ -230,6 +256,7 @@ export default class MovementController extends React.Component {
           }}/>
         </View>
         <Text>{`Score: ${score}`}</Text>
+        <Text>{`High Score: ${highScore}`}</Text>
         <CarController
           frogLocation={frogLocation}
           resetFrogPosition={this.resetFrogPosition}/>
