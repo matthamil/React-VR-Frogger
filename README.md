@@ -25,5 +25,5 @@ All assets in the `static_assets` directory are Creative Commons licensed works 
 1. [3D Nature Pack](http://kenney.nl) - CC0 License
 1. [3D Landscape Assets v2](http://www.racoon-media.nl) - [CC0 License](https://creativecommons.org/publicdomain/zero/1.0/)
 1. [3D Vehicles Assets v1](http://www.racoon-media.nl) - [CC0 License](https://creativecommons.org/publicdomain/zero/1.0/)
-1. [Blue Clouds Skybox](https://opengameart.org/node/11727) - by OpenGameArt.org user [Spiney](https://opengameart.org/users/spiney) [CC3 License](https://creativecommons.org/licenses/by/3.0/us/)
+1. [Blue Clouds Skybox](https://opengameart.org/node/11727) - by OpenGameArt.org user [Spiney](https://opengameart.org/users/spiney). [CC3 License](https://creativecommons.org/licenses/by/3.0/us/)
 1. [Baby Frog](https://www.models-resource.com/playstation/frogger2/model/10237/)
