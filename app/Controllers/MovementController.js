@@ -218,6 +218,9 @@ export default class MovementController extends React.Component {
   componentDidMount() {
     AsyncStorage.getItem('highScore')
       .then((highScore) => {
+        if (highScore === null) {
+          throw new Error('highScore is null');
+        }
         this.setState(() => ({
           highScore
         }));
@@ -255,8 +258,23 @@ export default class MovementController extends React.Component {
             mtl: asset('frog/baby.mtl')
           }}/>
         </View>
-        <Text>{`Score: ${score}`}</Text>
-        <Text>{`High Score: ${highScore}`}</Text>
+        <View
+          style={{
+            transform: [
+              { translate: [ 1, -3, 7.75 ] },
+              { rotateX: '-45deg' },
+            ]
+          }}>
+          <Text>
+            {`Score: ${score}`}
+          </Text>
+          <Text>
+            {`High Score: ${highScore}`}
+          </Text>
+          <Text>
+            Frogger in React VR by @_matthamil
+          </Text>
+        </View>
         <CarController
           frogLocation={frogLocation}
           resetFrogPosition={this.resetFrogPosition}/>
