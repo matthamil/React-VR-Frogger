@@ -17,3 +17,13 @@ If you are interested in learning about React VR, the following resources helped
 1. [Learn ReactVR](https://medium.com/coding-artist/learn-react-vr-chapter-1-hello-virtual-world-202241c0cb63)
 
 1. [React Native Animations Using the Animated API](https://medium.com/react-native-training/react-native-animations-using-the-animated-api-ebe8e0669fae)
+
+## Attributions
+
+All assets in the `static_assets` directory are Creative Commons licensed works (except the frog model). The following is a list of asset packs used in this project:
+
+1. [3D Nature Pack](http://kenney.nl) - CC0 License
+1. [3D Landscape Assets v2](http://www.racoon-media.nl) - CC0 License
+1. [3D Vehicles Assets v1](http://www.racoon-media.nl) - CC0 License
+1. [Blue Clouds Skybox](https://opengameart.org/node/11727) - CC3 License
+1. [Baby Frog](https://www.models-resource.com/playstation/frogger2/model/10237/)
