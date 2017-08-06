@@ -103,7 +103,7 @@ export default class MovementController extends React.Component {
   detectMovement = (e) => {
     const { eventType } = e.nativeEvent.inputEvent;
     if (
-      eventType !== 'keydown' ||
+      eventType !== 'keydown' &&
       eventType !== 'touchstart'
     ) {
       return;
