@@ -2,7 +2,7 @@
 
 ## [Play the game!](https://t.co/pNtr9QDfaZ)
 
-This is a proof-of-concept project. The is a recreation of Frogger using [React VR](https://facebook.github.io/react-vr/).
+This is a proof-of-concept project and a recreation of Frogger using [React VR](https://facebook.github.io/react-vr/).
 
 ## How to Play
 
