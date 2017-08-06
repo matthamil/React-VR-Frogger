@@ -133,9 +133,73 @@ export default class MovementController extends React.Component {
       }
     }
     else if (eventType === 'touchstart') {
-      // TODO
       const { touches } = e.nativeEvent.inputEvent;
+      // User is pinching the screen
+      if (touches.length > 1) {
+        return;
+      }
       const { viewportX, viewportY } = touches[0];
+      const direction = this.calculateTouchDirection(viewportX, viewportY);
+      switch (direction) {
+        case 'up': {
+          this.moveUp();
+          return;
+        }
+        case 'left': {
+          this.moveLeft();
+          return;
+        }
+        case 'right': {
+          this.moveRight();
+          return;
+        }
+        case 'down': {
+          this.moveDown();
+          return;
+        }
+        default:
+          return;
+      }
+    }
+  };
+
+  // Determine which part of the screen the user touched
+  calculateTouchDirection = (viewportX, viewportY) => {
+    // First line:
+    // y = x
+    // Y1 - Y2 = delta Y
+    // Where Y1 is point on line,
+    // and Y2 is point's Y value
+    // If delta Y < 0, left & above
+    // If delta Y > 0, right & below
+
+    const getPointOnLine = (slope) => (x) => slope * x;
+    const y1 = getPointOnLine(1)(viewportX);
+    const y2 = viewportY;
+    const deltaY = y1 - y2;
+
+    const isPointAboveLine1 = deltaY < 0;
+
+    // Second line:
+    // y = -x
+    // If delta Y < 0, above & right
+    // If Delta Y > 0, left & below
+    const secondY1 = getPointOnLine(-1)(viewportX);
+    const secondY2 = viewportY;
+    const secondDeltaY = secondY1 - secondY2;
+    const isPointAboveLine2 = secondDeltaY < 0;
+
+    if (isPointAboveLine1 && isPointAboveLine2) {
+      return 'up';
+    }
+    if (isPointAboveLine1 && !isPointAboveLine2) {
+      return 'left';
+    }
+    if (!isPointAboveLine1 && isPointAboveLine2) {
+      return 'right';
+    }
+    if (!isPointAboveLine1 && !isPointAboveLine2) {
+      return 'down';
     }
   };
 
