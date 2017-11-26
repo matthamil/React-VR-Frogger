@@ -1,19 +1,7 @@
-import React from 'react';
-import { Easing } from 'react-native';
-import {
-  AppRegistry,
-  Animated,
-  asset,
-  AsyncStorage,
-  Model,
-  Pano,
-  Plane,
-  Scene,
-  Text,
-  View,
-} from 'react-vr';
+import React from "react";
+import { asset, AsyncStorage, Model, Text, View } from "react-vr";
 
-import CarController from './CarController';
+import CarController from "./CarController";
 
 /**
  * This controller manages user input and moves the Frog through the
@@ -21,9 +9,9 @@ import CarController from './CarController';
  */
 export default class MovementController extends React.Component {
   // These are arbitrary boundaries for the player.
-  rightBoundary = 12;  // x-axis boundary
-  leftBoundary = -12;  // x-axis boundary
-  topBoundary = -10;   // z-axis boundary
+  rightBoundary = 12; // x-axis boundary
+  leftBoundary = -12; // x-axis boundary
+  topBoundary = -10; // z-axis boundary
   bottomBoundary = 14; // z-axis boundary
   frogOrigin = { x: 0, y: -10, z: 5 };
 
@@ -34,66 +22,64 @@ export default class MovementController extends React.Component {
     this.state = {
       ...this.frogOrigin,
       score: 0,
-      highScore: 0,
-      carLocations: {}
+      highScore: 0
     };
   }
 
   moveRight = () => {
     if (this.state.x < this.rightBoundary) {
-      this.setState((prevState) => {
+      this.setState(prevState => {
         const { x } = prevState;
         return {
           x: x + 1
         };
       });
     }
-  }
+  };
 
   moveLeft = () => {
     if (this.state.x > this.leftBoundary) {
-      this.setState((prevState) => {
+      this.setState(prevState => {
         const { x } = prevState;
         return {
           x: x - 1
-        }
+        };
       });
     }
-  }
+  };
 
   moveUp = () => {
     if (this.state.z > this.topBoundary) {
       if (this.state.z - 1 === this.topBoundary) {
         this.scorePoint();
-      }
-      else {
-        this.setState((prevState) => {
+      } else {
+        this.setState(prevState => {
           const { z } = prevState;
           return {
             z: z - 1
-          }
+          };
         });
       }
     }
-  }
+  };
 
   moveDown = () => {
     if (this.state.z < this.bottomBoundary) {
-      this.setState((prevState) => {
+      this.setState(prevState => {
         const { z } = prevState;
         return {
           z: z + 1
-        }
+        };
       });
     }
-  }
+  };
 
   scorePoint = () => {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       const newScore = prevState.score + 1;
       const isNewHighScore = newScore > prevState.highScore;
       if (isNewHighScore) {
-        AsyncStorage.setItem('highScore', newScore);
+        AsyncStorage.setItem("highScore", newScore);
       }
       return {
         score: newScore,
@@ -109,41 +95,36 @@ export default class MovementController extends React.Component {
       score: 0,
       ...this.frogOrigin
     }));
-  }
+  };
 
-  detectMovement = (e) => {
+  detectMovement = e => {
     const { eventType } = e.nativeEvent.inputEvent;
-    if (
-      eventType !== 'keydown' &&
-      eventType !== 'touchstart'
-    ) {
+    if (eventType !== "keydown" && eventType !== "touchstart") {
       return;
     }
 
-    if (eventType === 'keydown') {
+    if (eventType === "keydown") {
       const { key } = e.nativeEvent.inputEvent;
       switch (key) {
-        case 'd': {
+        case "d": {
           this.moveRight();
-          return;
+          break;
         }
-        case 'a': {
+        case "a": {
           this.moveLeft();
-          return;
+          break;
         }
-        case 'w': {
+        case "w": {
           this.moveUp();
-          return;
+          break;
         }
-        case 's': {
+        case "s": {
           this.moveDown();
-          return;
+          break;
         }
         default:
-          return;
       }
-    }
-    else if (eventType === 'touchstart') {
+    } else if (eventType === "touchstart") {
       const { touches } = e.nativeEvent.inputEvent;
       // User is pinching the screen
       if (touches.length > 1) {
@@ -152,29 +133,29 @@ export default class MovementController extends React.Component {
       const { viewportX, viewportY } = touches[0];
       const direction = this.calculateTouchDirection(viewportX, viewportY);
       switch (direction) {
-        case 'up': {
+        case "up": {
           this.moveUp();
-          return;
+          break;
         }
-        case 'left': {
+        case "left": {
           this.moveLeft();
-          return;
+          break;
         }
-        case 'right': {
+        case "right": {
           this.moveRight();
-          return;
+          break;
         }
-        case 'down': {
+        case "down": {
           this.moveDown();
-          return;
+          break;
         }
         default:
-          return;
       }
     }
   };
 
   // Determine which part of the screen the user touched
+  // eslint-disable-next-line
   calculateTouchDirection = (viewportX, viewportY) => {
     // First line:
     // y = x
@@ -184,7 +165,7 @@ export default class MovementController extends React.Component {
     // If delta Y < 0, left & above
     // If delta Y > 0, right & below
 
-    const getPointOnLine = (slope) => (x) => slope * x;
+    const getPointOnLine = slope => x => slope * x;
     const y1 = getPointOnLine(1)(viewportX);
     const y2 = viewportY;
     const deltaY = y1 - y2;
@@ -201,83 +182,70 @@ export default class MovementController extends React.Component {
     const isPointAboveLine2 = secondDeltaY < 0;
 
     if (isPointAboveLine1 && isPointAboveLine2) {
-      return 'up';
+      return "up";
     }
     if (isPointAboveLine1 && !isPointAboveLine2) {
-      return 'left';
+      return "left";
     }
     if (!isPointAboveLine1 && isPointAboveLine2) {
-      return 'right';
+      return "right";
     }
     if (!isPointAboveLine1 && !isPointAboveLine2) {
-      return 'down';
+      return "down";
     }
   };
 
-
   componentDidMount() {
-    AsyncStorage.getItem('highScore')
-      .then((highScore) => {
+    AsyncStorage.getItem("highScore")
+      .then(highScore => {
         if (highScore === null) {
-          throw new Error('highScore is null');
+          throw new Error("highScore is null");
         }
         this.setState(() => ({
           highScore
         }));
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState(() => ({
           highScore: 0
-        }))
+        }));
       });
   }
 
   render() {
     const { x, y, z, score, highScore } = this.state;
-    const frogLocation = [ x, y, z ];
+    const frogLocation = [x, y, z];
 
     return (
-      <View
-        onInput={this.detectMovement}>
+      <View onInput={this.detectMovement}>
         <View
           style={{
-            transform: [
-              { translateX: x },
-              { translateY: y },
-              { translateZ: z }
-            ]}}>
-        <Model
-          style={{
-            transform: [
-              { rotateY: '180deg' },
-              { scale: 0.03 },
-            ]
+            transform: [{ translateX: x }, { translateY: y }, { translateZ: z }]
           }}
-          source={{
-            obj: asset('frog/baby.obj'),
-            mtl: asset('frog/baby.mtl')
-          }}/>
+        >
+          <Model
+            style={{
+              transform: [{ rotateY: "180deg" }, { scale: 0.03 }]
+            }}
+            source={{
+              obj: asset("frog/baby.obj"),
+              mtl: asset("frog/baby.mtl")
+            }}
+          />
         </View>
         <View
           style={{
-            transform: [
-              { translate: [ 1, -3, 7.75 ] },
-              { rotateX: '-45deg' },
-            ]
-          }}>
-          <Text>
-            {`Score: ${score}`}
-          </Text>
-          <Text>
-            {`High Score: ${highScore}`}
-          </Text>
-          <Text>
-            Frogger in React VR by @_matthamil
-          </Text>
+            transform: [{ translate: [1, -3, 7.75] }, { rotateX: "-45deg" }]
+          }}
+        >
+          <Text>{`Score: ${score}`}</Text>
+          <Text>{`High Score: ${highScore}`}</Text>
+          <Text>Frogger in React VR by @_matthamil</Text>
         </View>
         <CarController
           frogLocation={frogLocation}
-          resetFrogPosition={this.resetFrogPosition}/>
+          resetFrogPosition={this.resetFrogPosition}
+        />
         {this.props.children}
       </View>
     );

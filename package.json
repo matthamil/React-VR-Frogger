@@ -5,17 +5,31 @@
   "scripts": {
     "start": "node -e \"console.log('open browser at http://localhost:8081/vr/\\n\\n');\" && node node_modules/react-native/local-cli/cli.js start",
     "bundle": "node node_modules/react-vr/scripts/bundle.js",
+    "format": "prettier --write 'app/**/*.js' && yarn run lint",
+    "precommit": "lint-staged",
+    "lint": "eslint app/**/*.js --fix",
     "open": "node -e \"require('xopen')('http://localhost:8081/vr/')\"",
     "devtools": "react-devtools",
     "test": "jest"
   },
   "dependencies": {
+    "babel-eslint": "^8.0.2",
+    "eslint": "^4.12.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.8.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-react": "^7.5.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^5.0.0",
     "ovrui": "~1.4.0",
+    "prettier": "^1.8.2",
     "react": "~15.4.1",
     "react-native": "~0.42.0",
-    "three": "^0.80.1",
     "react-vr": "~1.4.0",
-    "react-vr-web": "~1.4.0"
+    "react-vr-web": "~1.4.0",
+    "three": "^0.80.1"
   },
   "devDependencies": {
     "babel-jest": "^19.0.0",
@@ -27,5 +41,11 @@
   },
   "jest": {
     "preset": "react-vr"
+  },
+  "lint_staged": {
+    "*.{js,json,css}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
