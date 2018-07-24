@@ -1,3 +1,7 @@
+:warning: Currently rewriting this repo to use React 360, formerly known as React VR. Feel free to watch the repo when updates go out. More features on the way!
+
+----
+
 # :frog: Frogger-React-VR
 
 ## [Play the game!](https://t.co/pNtr9QDfaZ)
